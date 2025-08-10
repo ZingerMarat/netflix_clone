@@ -1,1 +1,8 @@
 @import "tailwindcss";
+
+.nav-list-item {
+  cursor: pointer;
+}
+.nav-list-item:hover {
+  color: #e50914;
+}
