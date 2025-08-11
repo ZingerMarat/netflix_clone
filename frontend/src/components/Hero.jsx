@@ -1,19 +1,59 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import HeroBg from "../assets/herobg2.jpg"
 import { Bookmark, Play } from "lucide-react"
 
 const Hero = () => {
+  const TMDB = "https://api.themoviedb.org/3"
+  const [movie, setMovie] = useState(null)
+  const [ytKey, setYtKey] = useState(null)
+
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`,
+    },
+  }
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const res = await fetch(`${TMDB}/movie/now_playing?language=en-US&page=1`, { ...options })
+        const data = await res.json()
+        if (!data?.results?.length) return
+
+        const randomIndex = Math.floor(Math.random() * data.results.length)
+        const m = data.results[randomIndex]
+        setMovie(m)
+
+        //try to get trailer
+        const vRes = await fetch(`${TMDB}/movie/${m.id}/videos?language=en-US`, { ...options })
+        const { results = [] } = await vRes.json()
+        const best = results.find((v) => v.site === "YouTube" && v.type === "Trailer" && v.official) || results.find((v) => v.site === "YouTube" && v.type === "Trailer") || results.find((v) => v.site === "YouTube")
+        setYtKey(best?.key ?? null)
+      } catch (err) {
+        console.error(err)
+      }
+    }
+
+    loadData()
+  }, [])
+
   return (
     <div className="text-white relative">
       <div className="relative rounded-2xl overflow-hidden h-[480px] w-full">
-        <iframe
-          className="absolute top-0 left-0 w-full h-full scale-210 pointer-events-none"
-          src="https://www.youtube.com/embed/VQRLujxTm3c?autoplay=1&mute=1&controls=0&loop=1&playlist=VQRLujxTm3c&modestbranding=1&rel=0&highres"
-          // src={`https://www.youtube.com/embed/${ytKey}?autoplay=1&mute=1&controls=0&loop=1&playlist=${ytKey}&pmodestbranding=1&rel=0&highres`}
-          title="GTA Trailer"
-          allow="autoplay; encrypted-media; "
-          allowFullScreen
-        />
+        {!ytKey ? (
+          <img src={movie?.backdrop_path ? `https://image.tmdb.org/t/p/original${movie.backdrop_path}` : ""} alt="" className="w-full rounded-2xl h-[480px] object-center object-cover" />
+        ) : (
+          <iframe
+            className="absolute top-0 left-0 w-full h-full scale-210 pointer-events-none"
+            //src="https://www.youtube.com/embed/VQRLujxTm3c?autoplay=1&mute=1&controls=0&loop=1&playlist=VQRLujxTm3c&modestbranding=1&rel=0&highres"
+            src={`https://www.youtube.com/embed/${ytKey}?autoplay=1&mute=1&controls=0&loop=1&playlist=${ytKey}&pmodestbranding=1&rel=0&highres`}
+            title="GTA Trailer"
+            allow="autoplay; encrypted-media; "
+            allowFullScreen
+          />
+        )}
       </div>
 
       <div className="flex space-x-2 md:space-x-4 absolute bottom-3 md:bottom-8 left-4 md:left-10 font-medium">
