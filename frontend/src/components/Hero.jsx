@@ -8,8 +8,8 @@ const Hero = () => {
       <div className="relative rounded-2xl overflow-hidden h-[480px] w-full">
         <iframe
           className="absolute top-0 left-0 w-full h-full scale-210 pointer-events-none"
-          src="https://www.youtube.com/embed/VQRLujxTm3c?autoplay=1&mute=1&controls=0&loop=1&modestbranding=1&rel=0&highres"
-          // src={`https://www.youtube.com/embed/${ytKey}?autoplay=1&mute=1&controls=0&loop=1&pmodestbranding=1&rel=0&highres`}
+          src="https://www.youtube.com/embed/VQRLujxTm3c?autoplay=1&mute=1&controls=0&loop=1&playlist=VQRLujxTm3c&modestbranding=1&rel=0&highres"
+          // src={`https://www.youtube.com/embed/${ytKey}?autoplay=1&mute=1&controls=0&loop=1&playlist=${ytKey}&pmodestbranding=1&rel=0&highres`}
           title="GTA Trailer"
           allow="autoplay; encrypted-media; "
           allowFullScreen
