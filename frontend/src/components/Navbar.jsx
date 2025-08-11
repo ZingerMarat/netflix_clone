@@ -1,12 +1,15 @@
 import React from "react"
 import { Search } from "lucide-react"
 import Logo from "../assets/logo.png"
+import { Link } from "react-router"
 
 function Navbar() {
   return (
     <nav className="bg-black text-gray-200 text-sm flex justify-between items-center p-4 h-20 space-x-4 md:text-[15px] font-medium text-nowrap">
       <label>
-        <img src={Logo} alt="logo" className="w-24 cursor-pointer brightness-150" />
+        <Link to={"/"}>
+          <img src={Logo} alt="logo" className="w-24 cursor-pointer brightness-150" />
+        </Link>
       </label>
 
       <ul className="hidden xl:flex space-x-6">
@@ -24,8 +27,8 @@ function Navbar() {
           <input type="text" className="bg-[#333333] px-4 py-2 rounded-full min-w-72 pr-10 outline-none" placeholder="Search..." />
           <Search className="absolute top-2 right-4 w-5 h-5" />
         </div>
-        <button className="bg-[#e50914] px-5 py-2 text-white cursor-pointer">Get AI Movie Picks</button>
-        <button className="border border-[#333333] px-5 py-2 text-white cursor-pointer">Sign In</button>
+        <button className="bg-[#e50914] px-5 py-2 text-white cursor-pointer rounded-2xl">Get AI Movie Picks</button>
+        <button className="border border-[#333333] px-5 py-2 text-white cursor-pointer rounded-2xl">Sign In</button>
       </div>
     </nav>
   )

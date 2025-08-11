@@ -4,7 +4,7 @@ import CardList from "../components/CardList.jsx"
 
 const HomePage = () => {
   return (
-    <div className="p-5">
+    <div>
       <Hero />
       <CardList title="Upcoming" category="upcoming" />
       <CardList title="Now Playing" category="now_playing" />
