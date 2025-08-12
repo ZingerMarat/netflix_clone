@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react"
-import HeroBg from "../assets/herobg2.jpg"
-import { Bookmark, Play } from "lucide-react"
+import React, { useState, useEffect } from "react"
+import { Bookmark, Play, Star } from "lucide-react"
 
-const Hero = () => {
+const MoviePoster = ({ id }) => {
   const TMDB = "https://api.themoviedb.org/3"
+
   const [movie, setMovie] = useState(null)
   const [ytKey, setYtKey] = useState(null)
 
@@ -16,23 +16,17 @@ const Hero = () => {
   }
 
   useEffect(() => {
+    if (!id) return
     async function loadData() {
       try {
-        const res = await fetch(`${TMDB}/movie/now_playing?language=en-US&page=1`, { ...options })
+        const res = await fetch(`https://api.themoviedb.org/3/movie/${id}?language=en-US`, options)
         const data = await res.json()
-        if (!data?.results?.length) return
+        if (!data) return
 
-        const randomIndex = Math.floor(Math.random() * data.results.length)
-        const m = data.results[randomIndex]
-
-        const res1 = await fetch(`https://api.themoviedb.org/3/movie/${m.id}?language=en-US`, options)
-        const data1 = await res1.json()
-        if (!data1) return
-
-        setMovie(data1)
+        setMovie(data)
 
         //try to get trailer
-        const vRes = await fetch(`${TMDB}/movie/${m.id}/videos?language=en-US`, { ...options })
+        const vRes = await fetch(`${TMDB}/movie/${id}/videos?language=en-US`, { ...options })
         const { results = [] } = await vRes.json()
         const best = results.find((v) => v.site === "YouTube" && v.type === "Trailer" && v.official) || results.find((v) => v.site === "YouTube" && v.type === "Trailer") || results.find((v) => v.site === "YouTube")
         setYtKey(best?.key ?? null)
@@ -42,8 +36,7 @@ const Hero = () => {
     }
 
     loadData()
-  }, [])
-
+  }, [id])
   return (
     <div className="text-white relative">
       <div className="relative rounded-2xl overflow-hidden h-[550px] w-full">
@@ -96,4 +89,4 @@ const Hero = () => {
   )
 }
 
-export default Hero
+export default MoviePoster
