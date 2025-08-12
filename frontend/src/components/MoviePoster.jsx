@@ -57,7 +57,7 @@ const MoviePoster = ({ id }) => {
       <div className="absolute inset-0 bg-gradient-to-t from-[#181818] via-transparent to-transparent pointer-events-none z-[5]" />
 
       {movie && (
-        <div className="absolute top-1/3 z-10 flex gap-5 items-center m-2">
+        <div className="absolute bottom-0 z-10 flex gap-5 items-center m-2">
           <img src={`https://image.tmdb.org/t/p/original${movie?.poster_path}`} className="rounded-lg shadow-lg w-48 hidden md:block h-auto flex-none" />
           <div className="flex flex-col">
             <h1 className="text-4xl font-bold mb-2">{movie?.title}</h1>
