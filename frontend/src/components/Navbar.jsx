@@ -13,13 +13,27 @@ function Navbar() {
       </label>
 
       <ul className="hidden xl:flex space-x-6">
-        <li className="nav-list-item">Home</li>
-        <li className="nav-list-item">TV Shows</li>
-        <li className="nav-list-item">Movies</li>
-        <li className="nav-list-item">Anime</li>
-        <li className="nav-list-item">Games</li>
-        <li className="nav-list-item">New & Popular</li>
-        <li className="nav-list-item">Upcoming</li>
+        <Link to={"/"}>
+          <li className="nav-list-item">Home</li>
+        </Link>
+        <Link to={"/tv_shows"}>
+          <li className="nav-list-item">TV Shows</li>
+        </Link>
+        <Link to={"/movies"}>
+          <li className="nav-list-item">Movies</li>
+        </Link>
+        <Link to={"/anime"}>
+          <li className="nav-list-item">Anime</li>
+        </Link>
+        <Link to={"/games"}>
+          <li className="nav-list-item">Games</li>
+        </Link>
+        <Link to={"/new_popular"}>
+          <li className="nav-list-item">New & Popular</li>
+        </Link>
+        <Link to={"/upcoming"}>
+          <li className="nav-list-item">Upcoming</li>
+        </Link>
       </ul>
 
       <div className="flex items-center space-x-4">

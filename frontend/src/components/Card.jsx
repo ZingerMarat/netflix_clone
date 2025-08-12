@@ -1,18 +1,13 @@
 import React from "react"
-import { Star } from "lucide-react"
 
 const Card = ({ movie }) => {
   return (
-    <>
-      <img src={movie?.backdrop_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : ""} alt="" className="h-44 w-80 object-center object-cover " />
-      <div className="flex flex-row text-center py-4 px-2 justify-between">
+    <div className="relative w-80 h-44">
+      <img src={movie?.backdrop_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : ""} alt="" className="h-44 w-80 object-center object-cover rounded-lg" />
+      <div className="absolute bottom-0 left-0 w-75 flex flex-row items-center justify-between bg-black/70 px-2 py-1">
         <p className="font-bold break-words">{movie.original_title}</p>
-        <div className="flex gap-1">
-          <Star strokeWidth={1} size={20} />
-          <p>{movie.vote_average.toFixed(1)}</p>
-        </div>
       </div>
-    </>
+    </div>
   )
 }
 

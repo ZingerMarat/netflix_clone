@@ -4,6 +4,7 @@ import HomePage from "./pages/HomePage.jsx"
 import MoviePage from "./pages/MoviePage.jsx"
 import Footer from "./components/Footer.jsx"
 import { Routes, Route } from "react-router"
+import CategoryPage from "./pages/CategoryPage.jsx"
 
 const App = () => {
   return (
@@ -12,6 +13,12 @@ const App = () => {
       <Routes>
         <Route path={"/"} element={<HomePage />} />
         <Route path={"/movie/:id"} element={<MoviePage />} />
+        <Route path={"/tv_shows"} element={<CategoryPage />} />
+        <Route path={"/movies"} element={<CategoryPage />} />
+        <Route path={"/anime"} element={<CategoryPage />} />
+        <Route path={"/games"} element={<CategoryPage />} />
+        <Route path={"/new_popular"} element={<CategoryPage />} />
+        <Route path={"/upcoming"} element={<CategoryPage />} />
       </Routes>
       <Footer />
     </>

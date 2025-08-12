@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react"
-import { Star } from "lucide-react"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Link } from "react-router"
 import "swiper/css"
@@ -24,7 +23,7 @@ const CardList = ({ title, category }) => {
         const data = await res.json()
         if (!data?.results?.length) return
 
-        const m = data.results
+        const m = data.results.filter((item) => item.original_language === "en")
         setMovies(m)
       } catch (err) {
         console.error(err)
@@ -36,12 +35,12 @@ const CardList = ({ title, category }) => {
 
   return (
     <div className="text-white md:px-4 m-5">
-      <h2 className="pt-10 pb-5 text-lg font-medium">{title}</h2>
+      <h2 className="pt-10 pb-5 text-2xl font-medium">{title}</h2>
 
-      <Swiper className="mySwiper h-60 items-center justify-center" spaceBetween={20} slidesPerView={"auto"}>
+      <Swiper className="mySwiper h-50 items-center justify-center" spaceBetween={20} slidesPerView={"auto"}>
         {movies &&
           movies.map((movie, index) => (
-            <SwiperSlide key={index} className="max-w-72 rounded-2xl overflow-hidden bg-white/5 backdrop-blur-xs border border-white/20">
+            <SwiperSlide key={index} className="max-w-72 max-h-44 rounded-2xl overflow-hidden bg-white/5 backdrop-blur-xs border-white/20 border-0">
               <Link to={`/movie/${movie.id}`}>
                 <Card movie={movie} />
               </Link>
