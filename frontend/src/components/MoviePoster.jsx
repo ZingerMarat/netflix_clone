@@ -1,42 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { Bookmark, Play, Star } from "lucide-react"
 
-const MoviePoster = ({ id }) => {
-  const TMDB = "https://api.themoviedb.org/3"
-
-  const [movie, setMovie] = useState(null)
-  const [ytKey, setYtKey] = useState(null)
-
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`,
-    },
-  }
-
-  useEffect(() => {
-    if (!id) return
-    async function loadData() {
-      try {
-        const res = await fetch(`https://api.themoviedb.org/3/movie/${id}?language=en-US`, options)
-        const data = await res.json()
-        if (!data) return
-
-        setMovie(data)
-
-        //try to get trailer
-        const vRes = await fetch(`${TMDB}/movie/${id}/videos?language=en-US`, { ...options })
-        const { results = [] } = await vRes.json()
-        const best = results.find((v) => v.site === "YouTube" && v.type === "Trailer" && v.official) || results.find((v) => v.site === "YouTube" && v.type === "Trailer") || results.find((v) => v.site === "YouTube")
-        setYtKey(best?.key ?? null)
-      } catch (err) {
-        console.error(err)
-      }
-    }
-
-    loadData()
-  }, [id])
+const MoviePoster = ({ movie, ytKey }) => {
   return (
     <div className="text-white relative">
       <div className="relative rounded-2xl overflow-hidden h-[550px] w-full">
@@ -62,10 +27,10 @@ const MoviePoster = ({ id }) => {
           <div className="flex flex-col">
             <h1 className="text-4xl font-bold mb-2">{movie?.title}</h1>
             <span>{movie?.tagline}</span>
-            <span>{movie?.release_date.slice(0, 4)}</span>
+            <span>{movie?.release_date?.slice(0, 4)}</span>
             <span>{movie?.runtime} min</span>
             <div className="m-4 ml-0 flex flex-wrap">
-              {movie?.genres.map((genre) => (
+              {movie?.genres?.map((genre) => (
                 <span key={genre.id} className="px-3 py-1 mx-2 ml-0 rounded-full bg-white/10 backdrop-blur-xs border border-white/20">
                   {genre.name}
                 </span>

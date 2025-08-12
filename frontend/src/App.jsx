@@ -5,11 +5,13 @@ import MoviePage from "./pages/MoviePage.jsx"
 import Footer from "./components/Footer.jsx"
 import { Routes, Route } from "react-router"
 import CategoryPage from "./pages/CategoryPage.jsx"
+import ScrollToTop from "./utiles/ScrollToTop.jsx"
 
 const App = () => {
   return (
     <>
       <Navbar />
+      <ScrollToTop />
       <Routes>
         <Route path={"/"} element={<HomePage />} />
         <Route path={"/movie/:id"} element={<MoviePage />} />

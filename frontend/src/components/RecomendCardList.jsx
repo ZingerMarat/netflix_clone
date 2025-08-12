@@ -4,7 +4,7 @@ import { Link } from "react-router"
 import "swiper/css"
 import Card from "./Card.jsx"
 
-const CardList = ({ title, category }) => {
+const RecomendCardList = ({ title, movie_id }) => {
   const TMDB = "https://api.themoviedb.org/3"
   const [movies, setMovies] = useState([])
   const [page, setPage] = useState(1)
@@ -20,7 +20,7 @@ const CardList = ({ title, category }) => {
   useEffect(() => {
     async function loadData(pageNum) {
       try {
-        const res = await fetch(`${TMDB}/movie/${category}?language=en-US&page=${pageNum}`, { ...options })
+        const res = await fetch(`${TMDB}/movie/${movie_id}/recommendations?language=en-US&page=${pageNum}`, options)
         const data = await res.json()
         if (!data?.results?.length) return
 
@@ -62,4 +62,4 @@ const CardList = ({ title, category }) => {
   )
 }
 
-export default CardList
+export default RecomendCardList
