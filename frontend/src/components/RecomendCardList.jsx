@@ -39,7 +39,7 @@ const RecomendCardList = ({ title, movie_id }) => {
       <h2 className="pt-10 pb-5 text-2xl font-medium">{title}</h2>
 
       <Swiper
-        className="mySwiper h-80 items-center justify-center"
+        className="mySwiper items-center justify-center"
         spaceBetween={20}
         slidesPerView={"auto"}
         onSlideChange={(swiper) => {
@@ -51,7 +51,7 @@ const RecomendCardList = ({ title, movie_id }) => {
       >
         {movies &&
           movies.map((movie, index) => (
-            <SwiperSlide key={index} className="max-w-50 max-h-75 rounded-2xl overflow-hidden bg-white/5 backdrop-blur-xs border-white/20 border-0">
+            <SwiperSlide key={index} className="max-w-16 md:max-w-50 max-h-25 md:max-h-75 rounded-2xl overflow-hidden bg-white/5 backdrop-blur-xs border-white/20 border-0">
               <Link to={`/movie/${movie.id}`}>
                 <Card movie={movie} />
               </Link>

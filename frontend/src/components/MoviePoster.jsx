@@ -2,9 +2,20 @@ import React, { useState, useEffect } from "react"
 import { Bookmark, Play, Star } from "lucide-react"
 
 const MoviePoster = ({ movie, ytKey }) => {
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkWidth = () => setIsMobile(window.innerWidth < 640)
+
+    checkWidth()
+    window.addEventListener("resize", checkWidth)
+
+    return () => window.removeEventListener("resize", checkWidth)
+  }, [])
+
   return (
     <div className="text-white relative">
-      <div className="relative rounded-2xl overflow-hidden h-[550px] w-full">
+      <div className="relative rounded-2xl overflow-hidden h-[300px] md:h-[550px] w-full">
         {!ytKey ? (
           <img src={movie?.backdrop_path ? `https://image.tmdb.org/t/p/original${movie?.backdrop_path}` : ""} alt="" className="w-full rounded-2xl h-[550px] object-center object-cover" />
         ) : (
@@ -25,18 +36,20 @@ const MoviePoster = ({ movie, ytKey }) => {
         <div className="absolute bottom-0 z-10 flex gap-5 items-center m-2">
           <img src={`https://image.tmdb.org/t/p/original${movie?.poster_path}`} className="rounded-lg shadow-lg w-48 hidden md:block h-auto flex-none" />
           <div className="flex flex-col">
-            <h1 className="text-4xl font-bold mb-2">{movie?.title}</h1>
+            <h1 className="text-2xl md:text-4xl font-bold mb-2">{movie?.title}</h1>
             <span>{movie?.tagline}</span>
             <span>{movie?.release_date?.slice(0, 4)}</span>
             <span>{movie?.runtime} min</span>
-            <div className="m-4 ml-0 flex flex-wrap">
-              {movie?.genres?.map((genre) => (
-                <span key={genre.id} className="px-3 py-1 mx-2 ml-0 rounded-full bg-white/10 backdrop-blur-xs border border-white/20">
-                  {genre.name}
-                </span>
-              ))}
-            </div>
-            <p className="w-1/2">{movie?.overview}</p>
+            {!isMobile && movie?.genres && (
+              <div className="m-4 ml-0 flex flex-wrap">
+                {movie?.genres?.map((genre) => (
+                  <span key={genre.id} className="px-3 py-1 mx-2 ml-0 rounded-full bg-white/10 backdrop-blur-xs border border-white/20">
+                    {genre.name}
+                  </span>
+                ))}
+              </div>
+            )}
+            {!isMobile && <p className="w-1/2">{movie?.overview}</p>}
 
             <div className="flex space-x-2 md:space-x-4 mt-5 font-medium">
               <button className="flex justify-center items-center bg-white/1 backdrop-blur-xs border border-white/20 hover:bg-white/15 text-[#e50914] py-3 px-4 rounded-full cursor-pointer text-sm md:text-base flex-none">

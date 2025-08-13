@@ -26,7 +26,7 @@ const Footer = () => {
           <li>Account</li>
           <li>Ways to Watch</li>
           <li>Corporate Information</li>
-          <li>Only on Netflix</li>
+          <li>Only on ZingerFlix</li>
         </ul>
 
         <ul className="footer-list">

@@ -42,7 +42,9 @@ function Navbar() {
           <Search className="absolute top-2 right-4 w-5 h-5" />
         </div>
         <button className="bg-[#e50914] px-5 py-2 text-white cursor-pointer rounded-2xl">Get AI Movie Picks</button>
-        <button className="border border-[#333333] px-5 py-2 text-white cursor-pointer rounded-2xl">Sign In</button>
+        <Link to={"/signin"}>
+          <button className="border border-[#333333] px-5 py-2 text-white cursor-pointer rounded-2xl">Sign In</button>
+        </Link>
       </div>
     </nav>
   )
