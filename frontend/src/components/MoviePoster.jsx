@@ -21,6 +21,7 @@ const MoviePoster = ({ movie, ytKey }) => {
         ) : (
           <iframe
             className="absolute top-0 left-0 w-screen h-full scale-[2.1] pointer-events-none"
+            //src="https://www.youtube.com/embed/VQRLujxTm3c?autoplay=1&mute=1&controls=0&loop=1&playlist=VQRLujxTm3c&modestbranding=1&rel=0&highres"
             src={`https://www.youtube.com/embed/${ytKey}?autoplay=1&mute=1&controls=0&loop=1&playlist=${ytKey}&pmodestbranding=1&rel=0&highres`}
             title={movie?.title}
             allow="autoplay; encrypted-media; "
@@ -35,10 +36,10 @@ const MoviePoster = ({ movie, ytKey }) => {
         <div className="absolute bottom-0 z-10 flex gap-5 items-center m-2">
           {movie.poster_path && <img src={`https://image.tmdb.org/t/p/original${movie?.poster_path}`} className="rounded-lg shadow-lg w-48 hidden md:block h-auto flex-none" />}
           <div className="flex flex-col">
-            <h1 className="text-2xl md:text-4xl font-bold mb-2">{movie?.title}</h1>
+            <h1 className="text-2xl md:text-4xl font-bold mb-2">{movie?.title ? movie.title : movie.original_name}</h1>
             <span>{movie?.tagline}</span>
             <span>{movie?.release_date?.slice(0, 4)}</span>
-            <span>{movie?.runtime} min</span>
+            {movie.runtime && <span>{movie?.runtime} min</span>}
             {!isMobile && movie?.genres && (
               <div className="m-4 ml-0 flex flex-wrap">
                 {movie?.genres?.map((genre) => (
