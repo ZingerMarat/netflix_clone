@@ -57,16 +57,19 @@ const MovieInfo = ({ type, movie }) => {
 
           <div className="grid grid-cols-[repeat(auto-fill,minmax(5rem,1fr))] gap-4 flex-1">
             {cast &&
-              cast.map((c) => (
-                <div key={c.id} className="flex flex-col items-center">
-                  <img src={`https://image.tmdb.org/t/p/original${c.profile_path}`} className="rounded-full object-cover w-20 h-20" />
-                  <div className="text-center mt-2 leading-tight">
-                    {c.name.split(" ").map((part, i) => (
-                      <div key={i}>{part}</div>
-                    ))}
-                  </div>
-                </div>
-              ))}
+              cast.map(
+                (c) =>
+                  c.profile_path && (
+                    <div key={c.id} className="flex flex-col items-center">
+                      <img src={`https://image.tmdb.org/t/p/original${c.profile_path}`} className="rounded-full object-cover w-20 h-20" />
+                      <div className="text-center mt-2 leading-tight">
+                        {c.name.split(" ").map((part, i) => (
+                          <div key={i}>{part}</div>
+                        ))}
+                      </div>
+                    </div>
+                  )
+              )}
           </div>
         </div>
       </div>

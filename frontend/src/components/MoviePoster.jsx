@@ -21,9 +21,8 @@ const MoviePoster = ({ movie, ytKey }) => {
         ) : (
           <iframe
             className="absolute top-0 left-0 w-screen h-full scale-[2.1] pointer-events-none"
-            //src="https://www.youtube.com/embed/VQRLujxTm3c?autoplay=1&mute=1&controls=0&loop=1&playlist=VQRLujxTm3c&modestbranding=1&rel=0&highres"
             src={`https://www.youtube.com/embed/${ytKey}?autoplay=1&mute=1&controls=0&loop=1&playlist=${ytKey}&pmodestbranding=1&rel=0&highres`}
-            title="GTA Trailer"
+            title={movie?.title}
             allow="autoplay; encrypted-media; "
             allowFullScreen
           />
