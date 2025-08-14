@@ -17,12 +17,11 @@ const App = () => {
       <Routes>
         <Route path={"/"} element={<HomePage />} />
         <Route path={"/movie/:id"} element={<MoviePage />} />
-        <Route path={"/tv_shows"} element={<CategoryPage />} />
-        <Route path={"/movies"} element={<CategoryPage />} />
-        <Route path={"/anime"} element={<CategoryPage />} />
-        <Route path={"/games"} element={<CategoryPage />} />
-        <Route path={"/new_popular"} element={<CategoryPage />} />
-        <Route path={"/upcoming"} element={<CategoryPage />} />
+        <Route path={"/tv_shows"} element={<CategoryPage category={"tv_shows"} />} />
+        <Route path={"/movies"} element={<CategoryPage category={"movies"} />} />
+        <Route path={"/new"} element={<CategoryPage category={"new"} />} />
+        <Route path={"/popular"} element={<CategoryPage category={"popular"} />} />
+        <Route path={"/upcoming"} element={<CategoryPage category={"upcoming"} />} />
         <Route path={"/signin"} element={<SignIn />} />
         <Route path={"/signup"} element={<SignUp />} />
       </Routes>

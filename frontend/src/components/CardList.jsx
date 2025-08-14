@@ -51,7 +51,7 @@ const CardList = ({ title, category }) => {
       >
         {movies &&
           movies.map((movie, index) => (
-            <SwiperSlide key={index} className=" max-w-16 md:max-w-50 max-h-25 md:max-h-75 rounded-2xl overflow-hidden bg-white/5 backdrop-blur-xs border-white/20 border-0">
+            <SwiperSlide key={index} className=" max-w-[160px] md:max-w-[200px] max-h-[240px] md:max-h-[300px] rounded-2xl overflow-hidden bg-white/5 backdrop-blur-xs border-white/20 border-0">
               <Link to={`/movie/${movie.id}`}>
                 <Card movie={movie} />
               </Link>
