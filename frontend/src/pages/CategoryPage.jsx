@@ -35,7 +35,7 @@ const CategoryPage = ({ category }) => {
     } else {
       setMovies((prev) => {
         const all = [...prev, ...data.results]
-        return all.filter((movie, index, self) => index === self.findIndex((m) => m.id === movie.id))
+        return all.filter((movie, index, self) => index === self.findIndex((m) => m.id === movie.id) && movie.backdrop_path)
       })
     }
 
@@ -62,7 +62,7 @@ const CategoryPage = ({ category }) => {
 
     observer.observe(loaderRef.current)
     return () => observer.disconnect()
-  }, [loaderRef])
+  }, [totalPages])
 
   useEffect(() => {
     if (page > 1) {

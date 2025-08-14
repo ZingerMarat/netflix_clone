@@ -1,9 +1,11 @@
 import React from "react"
 import { Search } from "lucide-react"
 import Logo from "../assets/logo.png"
-import { Link } from "react-router"
+import { NavLink, Link } from "react-router"
 
 function Navbar() {
+  const linkClass = ({ isActive }) => (isActive ? "text-[#e50914] nav-list-item" : "nav-list-item")
+
   return (
     <nav className="bg-black text-gray-200 text-sm flex justify-between items-center p-4 h-20 space-x-4 md:text-[15px] font-medium text-nowrap">
       <label>
@@ -13,24 +15,24 @@ function Navbar() {
       </label>
 
       <ul className="hidden xl:flex space-x-6">
-        <Link to={"/"}>
-          <li className="nav-list-item">Home</li>
-        </Link>
-        <Link to={"/tv_shows"}>
-          <li className="nav-list-item">TV Shows</li>
-        </Link>
-        <Link to={"/movies"}>
-          <li className="nav-list-item">Movies</li>
-        </Link>
-        <Link to={"/new"}>
-          <li className="nav-list-item">New</li>
-        </Link>
-        <Link to={"/popular"}>
-          <li className="nav-list-item">Popular</li>
-        </Link>
-        <Link to={"/upcoming"}>
-          <li className="nav-list-item">Upcoming</li>
-        </Link>
+        <NavLink to="/" className={linkClass}>
+          Home
+        </NavLink>
+        <NavLink to="/tv_shows" className={linkClass}>
+          TV Shows
+        </NavLink>
+        <NavLink to="/movies" className={linkClass}>
+          Movies
+        </NavLink>
+        <NavLink to="/new" className={linkClass}>
+          New
+        </NavLink>
+        <NavLink to="/popular" className={linkClass}>
+          Popular
+        </NavLink>
+        <NavLink to="/upcoming" className={linkClass}>
+          Upcoming
+        </NavLink>
       </ul>
 
       <div className="flex items-center space-x-4">
