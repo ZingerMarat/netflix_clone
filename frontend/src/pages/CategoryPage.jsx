@@ -82,9 +82,15 @@ const CategoryPage = ({ category }) => {
         {movies &&
           movies.map((movie) => (
             <div key={movie.id} className="m-2">
-              <Link to={`/movie/${movie.id}`}>
-                <Card movie={movie} />
-              </Link>
+              {category === "tv_shows" ? (
+                <Link to={`/media/tv/${movie.id}`}>
+                  <Card movie={movie} />
+                </Link>
+              ) : (
+                <Link to={`/media/movie/${movie.id}`}>
+                  <Card movie={movie} />
+                </Link>
+              )}
             </div>
           ))}
       </div>

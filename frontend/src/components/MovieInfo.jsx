@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 
-const MovieInfo = ({ movie }) => {
+const MovieInfo = ({ type, movie }) => {
   const TMDB = "https://api.themoviedb.org/3"
 
   const options = {
@@ -15,7 +15,7 @@ const MovieInfo = ({ movie }) => {
 
   useEffect(() => {
     const loadCasts = async () => {
-      const res = await fetch(`${TMDB}/movie/${movie.id}/credits?language=en-US`, options)
+      const res = await fetch(`${TMDB}/${type}/${movie.id}/credits?language=en-US`, options)
       const data = await res.json()
 
       setCast(data.cast.slice(0, 14))
@@ -37,7 +37,7 @@ const MovieInfo = ({ movie }) => {
 
             <li>
               <span className="font-semibold text-white">Release Date:</span>
-              <span className="ml-2">{movie.release_date}</span>
+              <span className="ml-2">{movie.release_date ? movie.release_date : movie.first_air_date}</span>
             </li>
 
             <li>

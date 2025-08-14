@@ -4,7 +4,7 @@ import { Link } from "react-router"
 import "swiper/css"
 import Card from "./Card.jsx"
 
-const RecomendCardList = ({ title, movie_id }) => {
+const RecomendCardList = ({ type, title, movie_id }) => {
   const TMDB = "https://api.themoviedb.org/3"
   const [movies, setMovies] = useState([])
   const [page, setPage] = useState(1)
@@ -20,7 +20,7 @@ const RecomendCardList = ({ title, movie_id }) => {
   useEffect(() => {
     async function loadData(pageNum) {
       try {
-        const res = await fetch(`${TMDB}/movie/${movie_id}/recommendations?language=en-US&page=${pageNum}`, options)
+        const res = await fetch(`${TMDB}/${type}/${movie_id}/recommendations?language=en-US&page=${pageNum}`, options)
         const data = await res.json()
         if (!data?.results?.length) return
 
@@ -52,7 +52,7 @@ const RecomendCardList = ({ title, movie_id }) => {
         {movies &&
           movies.map((movie, index) => (
             <SwiperSlide key={index} className="max-w-16 md:max-w-50 max-h-25 md:max-h-75 rounded-2xl overflow-hidden bg-white/5 backdrop-blur-xs border-white/20 border-0">
-              <Link to={`/movie/${movie.id}`}>
+              <Link to={`/media/${type}/${movie.id}`}>
                 <Card movie={movie} />
               </Link>
             </SwiperSlide>
