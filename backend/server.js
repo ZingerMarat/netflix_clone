@@ -1,12 +1,14 @@
 import express from "express"
 import { connectToDB } from "./config/db.js"
 import dotenv from "dotenv"
+import cookieParser from "cookie-parser"
 import authRouter from "./routes/auth.router.js"
 
 dotenv.config()
 
 const app = express()
 app.use(express.json())
+app.use(cookieParser(process.env.JWT_SECRET))
 
 const PORT = process.env.PORT || 3030
 
