@@ -10,6 +10,11 @@ const app = express()
 app.use(express.json())
 app.use(cookieParser(process.env.JWT_SECRET))
 
+// app.use(cors({
+//   origin: "https://your-frontend-domain.com",
+//   credentials: true,
+// }))
+
 const PORT = process.env.PORT || 3030
 
 app.get("/", (req, res) => {
