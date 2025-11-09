@@ -96,3 +96,35 @@ export const signup = async (req, res) => {
     res.status(500).json({ message: "[Signup Error]" + err.message || "Server error" })
   }
 }
+
+export const fetchUser = async (req, res) => {
+  const userId = req.signedCookies.token
+    ? jwt.verify(req.signedCookies.token, process.env.JWT_SECRET).id
+    : null
+
+  try {
+    if (!userId) {
+      return res.status(401).json({ message: "Unauthorized" })
+    }
+
+    const userDoc = await User.findById(userId).select("-password")
+
+    if (!userDoc) {
+      return res.status(404).json({ message: "User not found" })
+    }
+
+    res.status(200).json({
+      username: userDoc.username,
+      email: userDoc.email,
+      id: userDoc._id,
+    })
+  } catch (err) {
+    console.log("Fetch User Error: ", err.message)
+    res.status(500).json({ message: "[Fetch User Error] " + err.message || "Server error" })
+  }
+}
+
+export const logout = async (req, res) => {
+  res.cookie("token", "", { expires: new Date(0) })
+  res.status(200).json({ message: "Logout successful" })
+}
