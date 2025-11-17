@@ -3,6 +3,7 @@ import { connectToDB } from "./config/db.js"
 import dotenv from "dotenv"
 import cookieParser from "cookie-parser"
 import authRouter from "./routes/auth.router.js"
+import cors from "cors"
 
 dotenv.config()
 
@@ -10,10 +11,12 @@ const app = express()
 app.use(express.json())
 app.use(cookieParser(process.env.JWT_SECRET))
 
-// app.use(cors({
-//   origin: "https://your-frontend-domain.com",
-//   credentials: true,
-// }))
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+)
 
 const PORT = process.env.PORT || 3030
 
