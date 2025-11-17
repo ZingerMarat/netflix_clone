@@ -32,10 +32,10 @@ export const login = async (req, res) => {
       })
     }
 
+    const { password: _, ...userWithoutPassword } = userDoc.toObject()
+
     res.status(200).json({
-      username: userDoc.username,
-      email: userDoc.email,
-      id: userDoc._id,
+      user: userWithoutPassword,
       message: "Login successful",
     })
   } catch (err) {
@@ -85,10 +85,10 @@ export const signup = async (req, res) => {
       secure: process.env.NODE_ENV === "production" ? true : false,
     })
 
+    const { password: _, ...userWithoutPassword } = newUser.toObject()
+
     res.status(201).json({
-      username: newUser.username,
-      email: newUser.email,
-      id: newUser._id,
+      user: userWithoutPassword,
       message: "User created successfully",
     })
   } catch (err) {
