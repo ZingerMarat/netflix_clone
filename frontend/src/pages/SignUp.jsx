@@ -9,7 +9,7 @@ const SignUp = () => {
   const [password, setPassword] = useState("")
   const { signup, isLoading, error } = useAuthStore()
 
-  const handleSignUp = async (e) => {
+  const signUpHandler = async (e) => {
     e.preventDefault()
 
     try {
@@ -31,7 +31,7 @@ const SignUp = () => {
       <div className="max-w-[450px] w-full bg-black/70 px-8 py-10 mx-auto">
         <h1 className="text-3xl font-medium text-white mb-7">Sign Up</h1>
 
-        <form onSubmit={handleSignUp} className="flex flex-col gap-5">
+        <form onSubmit={signUpHandler} className="flex flex-col gap-5">
           <input
             type="text"
             value={username}

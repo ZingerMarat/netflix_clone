@@ -3,6 +3,8 @@ import axios from "axios"
 
 axios.defaults.withCredentials = true
 
+const API = import.meta.env.VITE_API_BASE_URL
+
 export const useAuthStore = create((set) => ({
   //initial states
   user: null,
@@ -16,15 +18,35 @@ export const useAuthStore = create((set) => ({
     set({ isLoading: true, message: null })
 
     try {
-      const res = await axios.post("http://localhost:3000/auth/signup", {
+      const res = await axios.post(`${API}/auth/signup`, {
         username,
         email,
         password,
       })
 
-      set({ user: res.data.user, isLoading: false })
+      const { user, message } = res.data
+
+      set({ user: user, message: message, isLoading: false })
     } catch (error) {
       set({ isLoading: false, error: error.response.data.message || "Error Signing up" })
+      throw error
+    }
+  },
+
+  login: async (username, password) => {
+    set({ isLoading: true, message: null })
+
+    try {
+      const res = await axios.post(`${API}/auth/login`, {
+        username,
+        password,
+      })
+
+      const { user, message } = res.data
+
+      set({ user: user, message: message, isLoading: false })
+    } catch (error) {
+      set({ isLoading: false, error: error.response.data.message || "Error Log in" })
       throw error
     }
   },

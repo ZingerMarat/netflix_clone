@@ -1,20 +1,19 @@
 import React, { useState } from "react"
 import { useNavigate } from "react-router"
-import axios from "axios"
+import { useAuthStore } from "../store/authStore.js"
 
 const SignIn = () => {
   const navigate = useNavigate()
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+  const { login, isLoading, error } = useAuthStore()
 
   const loginHandler = async (e) => {
     e.preventDefault()
 
     try {
-      const res = await axios.post("http://localhost:3000/auth/login", { username, password })
-      if (res.status === 200) {
-        navigate("/")
-      }
+      await login(username, password)
+      navigate("/")
     } catch (err) {
       console.log(err)
     }
@@ -31,7 +30,7 @@ const SignIn = () => {
       <div className="max-w-[450px] w-full bg-black/70 px-8 py-10 mx-auto">
         <h1 className="text-3xl font-medium text-white mb-7">Sign In</h1>
 
-        <form className="flex flex-col gap-5">
+        <form onSubmit={loginHandler} className="flex flex-col gap-5">
           <input
             type="text"
             value={username}
@@ -47,8 +46,11 @@ const SignIn = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
 
+          {error && <p className="text-red-500">{error}</p>}
+
           <button
             type="submit"
+            disabled={isLoading}
             className="w-full bg-[#e50914] text-white py-2 rounded hover:opacity-90 cursor-pointer"
             onClick={loginHandler}
           >
