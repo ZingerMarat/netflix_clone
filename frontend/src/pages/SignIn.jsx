@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { useNavigate } from "react-router"
 import { useAuthStore } from "../store/authStore.js"
+import toast from "react-hot-toast"
 
 const SignIn = () => {
   const navigate = useNavigate()
@@ -12,7 +13,8 @@ const SignIn = () => {
     e.preventDefault()
 
     try {
-      await login(username, password)
+      const { message } = await login(username, password)
+      toast.success(message)
       navigate("/")
     } catch (err) {
       console.log(err)

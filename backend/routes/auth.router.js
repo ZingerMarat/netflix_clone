@@ -7,7 +7,7 @@ const router = Router()
 
 router.post("/login", login)
 router.post("/signup", signup)
-router.get("/fetch-user", fetchUser)
+router.get("/me", fetchUser)
 router.get("/logout", logout)
 
 export default router

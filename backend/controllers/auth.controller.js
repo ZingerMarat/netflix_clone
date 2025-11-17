@@ -114,9 +114,7 @@ export const fetchUser = async (req, res) => {
     }
 
     res.status(200).json({
-      username: userDoc.username,
-      email: userDoc.email,
-      id: userDoc._id,
+      user: userDoc,
     })
   } catch (err) {
     console.log("Fetch User Error: ", err.message)

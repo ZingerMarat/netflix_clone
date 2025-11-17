@@ -2,8 +2,11 @@ import React from "react"
 import { Search } from "lucide-react"
 import Logo from "../assets/logo.png"
 import { NavLink, Link } from "react-router"
+import { useAuthStore } from "../store/authStore.js"
 
 function Navbar() {
+  const { user } = useAuthStore()
+
   const linkClass = ({ isActive }) => (isActive ? "text-[#e50914] nav-list-item" : "nav-list-item")
 
   return (
@@ -37,13 +40,31 @@ function Navbar() {
 
       <div className="flex items-center space-x-4">
         <div className="relative hidden md:inline-flex">
-          <input type="text" className="bg-[#333333] px-4 py-2 rounded-full min-w-72 pr-10 outline-none" placeholder="Search..." />
+          <input
+            type="text"
+            className="bg-[#333333] px-4 py-2 rounded-full min-w-72 pr-10 outline-none"
+            placeholder="Search..."
+          />
           <Search className="absolute top-2 right-4 w-5 h-5" />
         </div>
-        <button className="bg-[#e50914] px-5 py-2 text-white cursor-pointer rounded-2xl">Get AI Movie Picks</button>
-        <Link to={"/signin"}>
-          <button className="border border-[#333333] px-5 py-2 text-white cursor-pointer rounded-2xl">Sign In</button>
-        </Link>
+        <button className="bg-[#e50914] px-5 py-2 text-white cursor-pointer rounded-2xl">
+          Get AI Movie Picks
+        </button>
+
+        {!user ? (
+          <Link to={"/signin"}>
+            <button className="border border-[#333333] px-5 py-2 text-white cursor-pointer rounded-2xl">
+              Sign In
+            </button>
+          </Link>
+        ) : (
+          <div className="flex items-center space-x-4 text-white">
+            <div>Hello, {user.username}</div>
+            <button className="border border-[#333333] px-5 py-2 text-white cursor-pointer rounded-2xl">
+              Log out
+            </button>
+          </div>
+        )}
       </div>
     </nav>
   )

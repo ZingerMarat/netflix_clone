@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import Navbar from "./components/Navbar.jsx"
 import HomePage from "./pages/HomePage.jsx"
 import MediaPage from "./pages/MediaPage.jsx"
@@ -8,10 +8,23 @@ import CategoryPage from "./pages/CategoryPage.jsx"
 import ScrollToTop from "./utiles/ScrollToTop.jsx"
 import SignIn from "./pages/SignIn.jsx"
 import SignUp from "./pages/SignUp.jsx"
+import { Toaster } from "react-hot-toast"
+import { useAuthStore } from "./store/authStore.js"
 
 const App = () => {
+  const { fetchUser, fetchingUser } = useAuthStore()
+
+  useEffect(() => {
+    fetchUser()
+  }, [fetchUser])
+
+  if (fetchingUser) {
+    return null
+  }
+
   return (
     <>
+      <Toaster />
       <Navbar />
       <ScrollToTop />
       <Routes>
