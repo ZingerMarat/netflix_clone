@@ -10,21 +10,22 @@ const MoviePoster = ({ movie, ytKey }) => {
           <img
             src={
               movie?.backdrop_path
-                ? `https://image.tmdb.org/t/p/original${movie.backdrop_path}`
+                ? `https://image.tmdb.org/t/p/original${movie?.backdrop_path}`
                 : ""
             }
-            alt={movie?.title || movie?.original_name || "Movie backdrop"}
-            className="w-full h-full rounded-2xl object-center object-cover"
+            alt=""
+            className="w-full rounded-2xl h-[550px] object-center object-cover"
           />
         ) : (
           <iframe
-            className="absolute top-0 left-0 w-full h-full pointer-events-none"
-            src={`https://www.youtube.com/embed/${ytKey}?autoplay=1&mute=1&controls=0&loop=1&playlist=${ytKey}&modestbranding=1&rel=0`}
+            className="absolute top-0 left-0 w-screen h-full scale-[2.1] pointer-events-none"
+            //src="https://www.youtube.com/embed/VQRLujxTm3c?autoplay=1&mute=1&controls=0&loop=1&playlist=VQRLujxTm3c&modestbranding=1&rel=0&highres"
+            src={`https://www.youtube.com/embed/${ytKey}?autoplay=1&mute=1&controls=0&loop=1&playlist=${ytKey}&pmodestbranding=1&rel=0&highres`}
             title={movie?.title}
-            allow="autoplay; encrypted-media;"
+            allow="autoplay; encrypted-media; "
             allowFullScreen
           />
-        )}
+        )}{" "}
       </div>
 
       {/* Dark gradients over background */}
