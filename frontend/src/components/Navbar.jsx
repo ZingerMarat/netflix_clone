@@ -4,12 +4,19 @@ import { useState } from "react"
 import Logo from "../assets/logo.png"
 import { NavLink, Link } from "react-router"
 import { useAuthStore } from "../store/authStore.js"
+import toast from "react-hot-toast"
 
 function Navbar() {
-  const { user } = useAuthStore()
+  const { user, logout } = useAuthStore()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const linkClass = ({ isActive }) => (isActive ? "text-[#e50914] nav-list-item" : "nav-list-item")
+
+  const handleLogout = async () => {
+    const { message } = await logout()
+    toast.success(message)
+    setIsMenuOpen(false)
+  }
 
   return (
     <nav className="bg-black text-gray-200 text-sm flex justify-between items-center p-4 h-20 space-x-4 md:text-[15px] font-medium text-nowrap relative">
@@ -71,13 +78,13 @@ function Navbar() {
               Upcoming
             </NavLink>
             {!user ? (
-              <Link to={"/signin"} className={linkClass} onClick={() => setIsMenuOpen(false)}>
+              <NavLink to="/signin" className={linkClass} onClick={() => setIsMenuOpen(false)}>
                 Sign In
-              </Link>
+              </NavLink>
             ) : (
-              <Link to={"/signin"} className={linkClass} onClick={() => setIsMenuOpen(false)}>
+              <NavLink to="/signin" onClick={handleLogout} className={linkClass}>
                 Log Out
-              </Link>
+              </NavLink>
             )}
           </ul>
         </div>
@@ -105,7 +112,10 @@ function Navbar() {
             </Link>
           ) : (
             <div className="flex items-center space-x-4 text-white">
-              <button className="border border-[#333333] px-5 py-2 text-white cursor-pointer rounded-2xl">
+              <button
+                onClick={handleLogout}
+                className="border border-[#333333] px-5 py-2 text-white cursor-pointer rounded-2xl"
+              >
                 Log out
               </button>
             </div>

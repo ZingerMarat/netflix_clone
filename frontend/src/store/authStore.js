@@ -1,5 +1,6 @@
 import { create } from "zustand"
 import axios from "axios"
+import { LogOut } from "lucide-react"
 
 axios.defaults.withCredentials = true
 
@@ -15,7 +16,7 @@ export const useAuthStore = create((set) => ({
 
   //functions
   signup: async (username, email, password) => {
-    set({ isLoading: true, message: null })
+    set({ isLoading: true, message: null, error: null })
 
     try {
       const res = await axios.post(`${API}/auth/signup`, {
@@ -34,7 +35,7 @@ export const useAuthStore = create((set) => ({
   },
 
   login: async (username, password) => {
-    set({ isLoading: true, message: null })
+    set({ isLoading: true, message: null, error: null })
 
     try {
       const res = await axios.post(`${API}/auth/login`, {
@@ -52,8 +53,21 @@ export const useAuthStore = create((set) => ({
     }
   },
 
+  logout: async () => {
+    set({ isLoading: true, message: null, error: null })
+
+    try {
+      const res = await axios.get(`${API}/auth/logout`)
+      if (res.status == 200) set({ user: null, isLoading: false })
+      return { message: res.data.message }
+    } catch (error) {
+      set({ isLoading: false, error: error.response.data.message || "Error Log out" })
+      throw error
+    }
+  },
+
   fetchUser: async () => {
-    set({ fetchingUser: true, error: null })
+    set({ fetchingUser: true, error: null, message: null })
 
     try {
       const res = await axios.get(`${API}/auth/me`)
