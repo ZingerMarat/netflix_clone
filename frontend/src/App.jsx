@@ -3,7 +3,7 @@ import Navbar from "./components/Navbar.jsx"
 import HomePage from "./pages/HomePage.jsx"
 import MediaPage from "./pages/MediaPage.jsx"
 import Footer from "./components/Footer.jsx"
-import { Routes, Route } from "react-router"
+import { Routes, Route } from "react-router-dom"
 import CategoryPage from "./pages/CategoryPage.jsx"
 import ScrollToTop from "./utiles/ScrollToTop.jsx"
 import SignIn from "./pages/SignIn.jsx"
@@ -29,6 +29,7 @@ const App = () => {
       <ScrollToTop />
       <Routes>
         <Route path={"/"} element={<HomePage />} />
+        <Route path={"/home"} element={<HomePage />} />
         <Route path={"/media/:type/:id"} element={<MediaPage />} />
         <Route path={"/tv_shows"} element={<CategoryPage category={"tv_shows"} />} />
         <Route path={"/movies"} element={<CategoryPage category={"movies"} />} />

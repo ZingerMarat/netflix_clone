@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react"
-import { useParams } from "react-router"
+import { useParams } from "react-router-dom"
 import MoviePoster from "../components/MoviePoster.jsx"
 import MovieInfo from "../components/MovieInfo.jsx"
 import RecomendCardList from "../components/RecomendCardList.jsx"

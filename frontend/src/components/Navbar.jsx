@@ -2,12 +2,13 @@ import React from "react"
 import { Search, Menu, X } from "lucide-react"
 import { useState } from "react"
 import Logo from "../assets/logo.png"
-import { NavLink, Link } from "react-router"
+import { NavLink, Link, useNavigate } from "react-router-dom"
 import { useAuthStore } from "../store/authStore.js"
 import toast from "react-hot-toast"
 
 function Navbar() {
   const { user, logout } = useAuthStore()
+  const navigate = useNavigate()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const linkClass = ({ isActive }) => (isActive ? "text-[#e50914] nav-list-item" : "nav-list-item")
@@ -16,6 +17,7 @@ function Navbar() {
     const { message } = await logout()
     toast.success(message)
     setIsMenuOpen(false)
+    navigate("/")
   }
 
   return (
@@ -59,7 +61,7 @@ function Navbar() {
       {isMenuOpen && (
         <div className="absolute top-full left-0 w-full xl:hidden z-30  bg-[#e50914]/1 backdrop-blur-sm  text-white py-3 px-4 cursor-pointer text-sm md:text-base transition flex-none">
           <ul className="flex flex-col space-y-3 p-4">
-            <NavLink to="/" className={linkClass} onClick={() => setIsMenuOpen(false)}>
+            <NavLink to="/home" className={linkClass} onClick={() => setIsMenuOpen(false)}>
               Home
             </NavLink>
             <NavLink to="/tv_shows" className={linkClass} onClick={() => setIsMenuOpen(false)}>
@@ -82,9 +84,9 @@ function Navbar() {
                 Sign In
               </NavLink>
             ) : (
-              <NavLink to="/signin" onClick={handleLogout} className={linkClass}>
+              <button type="button" onClick={handleLogout} className="nav-list-item text-left">
                 Log Out
-              </NavLink>
+              </button>
             )}
           </ul>
         </div>
@@ -99,20 +101,23 @@ function Navbar() {
           />
           <Search className="absolute top-2 right-4 w-5 h-5" />
         </div>
-        <button className="bg-[#e50914] px-5 py-2 text-white cursor-pointer rounded-2xl min-w-[10px] sm:min-w-36 md:min-w-40">
-          AI Picks
-        </button>
+        <NavLink to={user ? "/ai-picks" : "/signin"}>
+          <button className="bg-[#e50914] px-5 py-2 text-white cursor-pointer rounded-2xl min-w-[10px] sm:min-w-36 md:min-w-40">
+            AI Picks
+          </button>
+        </NavLink>
 
         <div className="hidden xl:flex">
           {!user ? (
-            <Link to={"/signin"}>
+            <NavLink to={"/signin"}>
               <button className="border border-[#333333] px-5 py-2 text-white cursor-pointer rounded-2xl">
                 Sign In
               </button>
-            </Link>
+            </NavLink>
           ) : (
             <div className="flex items-center space-x-4 text-white">
               <button
+                type="button"
                 onClick={handleLogout}
                 className="border border-[#333333] px-5 py-2 text-white cursor-pointer rounded-2xl"
               >
