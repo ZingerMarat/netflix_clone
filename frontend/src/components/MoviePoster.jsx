@@ -19,7 +19,6 @@ const MoviePoster = ({ movie, ytKey }) => {
         ) : (
           <iframe
             className="absolute top-0 left-0 w-screen h-full scale-[2.1] pointer-events-none"
-            //src="https://www.youtube.com/embed/VQRLujxTm3c?autoplay=1&mute=1&controls=0&loop=1&playlist=VQRLujxTm3c&modestbranding=1&rel=0&highres"
             src={`https://www.youtube.com/embed/${ytKey}?autoplay=1&mute=1&controls=0&loop=1&playlist=${ytKey}&pmodestbranding=1&rel=0&highres`}
             title={movie?.title}
             allow="autoplay; encrypted-media; "
@@ -51,7 +50,7 @@ const MoviePoster = ({ movie, ytKey }) => {
               {movie?.title ? movie.title : movie.original_name}
             </h1>
 
-            {/* Tagline / year / runtime — всегда видны */}
+            {/* Tagline / year / runtime*/}
             {movie?.tagline && (
               <span className="text-xs sm:text-sm opacity-80">{movie.tagline}</span>
             )}
@@ -61,7 +60,7 @@ const MoviePoster = ({ movie, ytKey }) => {
               {movie?.runtime && <span>{movie.runtime} min</span>}
             </div>
 
-            {/* Genres: показываем только с md (нужно больше места) */}
+            {/* Genres*/}
             {movie?.genres && movie.genres.length > 0 && (
               <div className="hidden md:flex flex-wrap mt-3">
                 {movie.genres.map((genre) => (
@@ -75,7 +74,7 @@ const MoviePoster = ({ movie, ytKey }) => {
               </div>
             )}
 
-            {/* Overview: показываем только на lg+, чтобы текст не был сжат */}
+            {/* Overview */}
             {movie?.overview && (
               <p className="hidden lg:block mt-3 max-w-[60%] text-sm md:text-base">
                 {movie.overview}
