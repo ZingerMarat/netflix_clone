@@ -101,19 +101,25 @@ function Navbar() {
           />
           <Search className="absolute top-2 right-4 w-5 h-5" />
         </div>
-        <NavLink to={user ? "/ai-picks" : "/signin"}>
-          <button className="bg-[#e50914] px-5 py-2 text-white cursor-pointer rounded-2xl min-w-[10px] sm:min-w-36 md:min-w-40">
-            AI Picks
-          </button>
-        </NavLink>
+        <button
+          onClick={() => {
+            user ? navigate("/ai-picks") : navigate("/signin")
+          }}
+          className="bg-[#e50914] px-5 py-2 text-white cursor-pointer rounded-2xl min-w-[10px] sm:min-w-36 md:min-w-40"
+        >
+          AI Picks
+        </button>
 
         <div className="hidden xl:flex">
           {!user ? (
-            <NavLink to={"/signin"}>
-              <button className="border border-[#333333] px-5 py-2 text-white cursor-pointer rounded-2xl">
-                Sign In
-              </button>
-            </NavLink>
+            <button
+              onClick={() => {
+                navigate("/signin")
+              }}
+              className="border border-[#333333] px-5 py-2 text-white cursor-pointer rounded-2xl"
+            >
+              Sign In
+            </button>
           ) : (
             <div className="flex items-center space-x-4 text-white">
               <button

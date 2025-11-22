@@ -8,6 +8,7 @@ import CategoryPage from "./pages/CategoryPage.jsx"
 import ScrollToTop from "./utiles/ScrollToTop.jsx"
 import SignIn from "./pages/SignIn.jsx"
 import SignUp from "./pages/SignUp.jsx"
+import AIPicks from "./pages/AIPicks.jsx"
 import { Toaster } from "react-hot-toast"
 import { useAuthStore } from "./store/authStore.js"
 
@@ -38,6 +39,7 @@ const App = () => {
         <Route path={"/upcoming"} element={<CategoryPage category={"upcoming"} />} />
         <Route path={"/signin"} element={<SignIn />} />
         <Route path={"/signup"} element={<SignUp />} />
+        <Route path={"/ai-picks"} element={<AIPicks />} />
       </Routes>
       <Footer />
     </>
