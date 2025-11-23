@@ -3,6 +3,7 @@ import { useState } from "react"
 import { toast } from "react-hot-toast"
 import { generateAIPicks } from "../../lib/AIModel.js"
 import RecommendedMovies from "../components/RecommendedMovies.jsx"
+import { useRecommendStore } from "../store/recommendStore.js"
 
 const steps = [
   {
@@ -40,8 +41,9 @@ const initialState = steps.reduce((acc, step) => {
 const AIPicks = () => {
   const [answers, setAnswers] = useState(initialState)
   const [currentStep, setCurrentStep] = useState(0)
-  const [recommendation, setRecommendation] = useState([])
   const [loading, setLoading] = useState(false)
+  const { storedRecommendations, setStoredRecommendations, clearStoredRecommendations } =
+    useRecommendStore()
 
   const handleOptionSelect = (option) => {
     const stepName = steps[currentStep].name
@@ -96,7 +98,7 @@ const AIPicks = () => {
 
       try {
         const parsedRecommendations = JSON.parse(cleanedResults)
-        setRecommendation(parsedRecommendations)
+        setStoredRecommendations(parsedRecommendations)
         console.log("AI Recommendations:", parsedRecommendations)
       } catch (error) {
         console.error("Parsing error:", error)
@@ -120,71 +122,100 @@ const AIPicks = () => {
           AI Movie Recommendations
         </h2>
 
-        <div className="w-full flex items-center mb-8">
-          <div className="h-2 flex-1 bg-[#232323] rounded-full overflow-hidden">
-            <div
-              className="h-full bg-[#e50914] transition-all duration-300"
-              style={{ width: `${((currentStep + 1) / steps.length) * 100}%` }}
-            ></div>
-          </div>
+        {storedRecommendations.length === 0 ? (
+          <>
+            <div className="w-full flex items-center mb-8">
+              <div className="h-2 flex-1 bg-[#232323] rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-[#e50914] transition-all duration-300"
+                  style={{ width: `${((currentStep + 1) / steps.length) * 100}%` }}
+                ></div>
+              </div>
 
-          <span className="ml-4 text-white text-sm font-semibold">
-            {currentStep + 1} / {steps.length}
-          </span>
-        </div>
+              <span className="ml-4 text-white text-sm font-semibold">
+                {currentStep + 1} / {steps.length}
+              </span>
+            </div>
 
-        <div className="w-full flex-1 flex flex-col">
-          <div className="flex-1 mb-6">
-            <h3 className="text-lg font-semibold text-white text-center my-3">
-              {steps[currentStep].question}
-            </h3>
+            <div className="w-full flex-1 flex flex-col">
+              <div className="flex-1 mb-6">
+                <h3 className="text-lg font-semibold text-white text-center my-3">
+                  {steps[currentStep].question}
+                </h3>
 
-            <div className="grid grid-cols-1 gap-3">
-              {steps[currentStep].options.map((option, index) => (
-                <button
-                  key={index}
-                  className={`w-full py-3 rounded-xl border-2 border-[#333] text-white font-semibold transition duration-300 
+                <div className="grid grid-cols-1 gap-3">
+                  {steps[currentStep].options.map((option, index) => (
+                    <button
+                      key={index}
+                      className={`w-full py-3 rounded-xl border-2 border-[#333] text-white font-semibold transition duration-300 
                   ${
                     answers[steps[currentStep].name] == option
                       ? "bg-[#e50914]"
                       : "bg-[#232323] hover:bg-[#e50914]"
                   }`}
-                  onClick={() => handleOptionSelect(option)}
-                >
-                  {option}
-                </button>
-              ))}
-            </div>
+                      onClick={() => handleOptionSelect(option)}
+                    >
+                      {option}
+                    </button>
+                  ))}
+                </div>
 
-            <div className="flex justify-between mt-6">
-              <button
-                className="py-2 px-4 rounded-lg border-2 border-[#333] bg-[#232323] text-white font-semibold hover:bg-[#232323]/50 transition duration-300"
-                onClick={handlePrevStep}
-                disabled={currentStep == 0}
-              >
-                Back
-              </button>
-              <button
-                className={`py-2 px-4 rounded-lg border-2 border-[#333] text-white font-semibold transition duration-300
+                <div className="flex justify-between mt-6">
+                  <button
+                    className="py-2 px-4 rounded-lg border-2 border-[#333] bg-[#232323] text-white font-semibold hover:bg-[#232323]/50 transition duration-300"
+                    onClick={handlePrevStep}
+                    disabled={currentStep == 0}
+                  >
+                    Back
+                  </button>
+                  <button
+                    className={`py-2 px-4 rounded-lg border-2 border-[#333] text-white font-semibold transition duration-300
                                 ${
                                   answers[steps[currentStep].name]
                                     ? "bg-[#e50914] hover:bg-[#e50914]/50"
                                     : "bg-[#232323] opacity-50 cursor-not-allowed"
                                 }
                             `}
-                onClick={
-                  currentStep === steps.length - 1 ? handleGenerateRecommendations : handleNextStep
-                }
-                disabled={!answers[steps[currentStep].name] || loading}
-              >
-                {currentStep === steps.length - 1 ? "Generate" : "Next"}
-              </button>
+                    onClick={
+                      currentStep === steps.length - 1
+                        ? handleGenerateRecommendations
+                        : handleNextStep
+                    }
+                    disabled={!answers[steps[currentStep].name] || loading}
+                  >
+                    {currentStep === steps.length - 1 ? "Generate" : "Next"}
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          </>
+        ) : (
+          <>
+            <h3 className="text-xl font-semibold text-white text-center mb-6">
+              Your Movie Recommendations are Ready!
+            </h3>
+            <p className="text-white text-center mb-6">
+              You can find your personalized movie recommendations below based on your preferences
+              or regenerate new ones.
+            </p>
+
+            <button
+              className="mt-auto py-2 px-4 rounded-lg border-2 border-[#333] bg-[#e50914] text-white font-semibold hover:bg-[#e50914]/50 transition duration-300"
+              onClick={() => {
+                setAnswers(initialState)
+                setCurrentStep(0)
+                clearStoredRecommendations()
+              }}
+            >
+              Regenerate Recommendations
+            </button>
+          </>
+        )}
       </div>
 
-      <RecommendedMovies movieTitles={recommendation} />
+      {storedRecommendations.length > 0 && (
+        <RecommendedMovies movieTitles={storedRecommendations} />
+      )}
     </div>
   )
 }
