@@ -1,10 +1,10 @@
-import React from "react"
-import { Search, Menu, X } from "lucide-react"
-import { useState } from "react"
+import React, { useState } from "react"
+import { Menu, X } from "lucide-react"
 import Logo from "../assets/logo.png"
 import { NavLink, Link, useNavigate } from "react-router-dom"
 import { useAuthStore } from "../store/authStore.js"
 import toast from "react-hot-toast"
+import SearchBar from "./SearchBar.jsx"
 
 function Navbar() {
   const { user, logout } = useAuthStore()
@@ -18,6 +18,13 @@ function Navbar() {
     toast.success(message)
     setIsMenuOpen(false)
     navigate("/")
+  }
+
+  const handleSearchSelect = (item) => {
+    if (!item?.id) return
+    const mediaType = item.media_type === "tv" ? "tv" : "movie"
+    navigate(`/media/${mediaType}/${item.id}`)
+    setIsMenuOpen(false)
   }
 
   return (
@@ -93,19 +100,79 @@ function Navbar() {
       )}
 
       <div className="flex items-center space-x-4">
-        <div className="relative inline-flex">
+        <div className="relative inline-flex w-full sm:w-auto">
           <input
             type="text"
             className="bg-[#333333] px-4 py-2 rounded-full min-w-[20px] sm:min-w-36 md:min-w-40 pr-10 outline-none"
             placeholder="Search..."
+            value={searchQuery}
+            onChange={(event) => setSearchQuery(event.target.value)}
+            onKeyDown={(event) => {
+              if (event.key === "Enter") {
+                event.preventDefault()
+                handleSearchSubmit()
+              }
+            }}
           />
-          <Search className="absolute top-2 right-4 w-5 h-5" />
+
+          <Search className="absolute right-6 top-2 w-5 h-5" />
+<<<<<<< ours
+        <SearchBar onSelect={handleSearchSelect} />
+=======
+        <div className="relative inline-flex w-full sm:w-auto">
+          <input
+            type="text"
+            className="bg-[#333333] px-4 py-2 rounded-full min-w-[20px] sm:min-w-36 md:min-w-40 pr-10 outline-none"
+            placeholder="Search..."
+            value={searchQuery}
+            onChange={(event) => setSearchQuery(event.target.value)}
+            onKeyDown={(event) => {
+              if (event.key === "Enter") {
+                event.preventDefault()
+                handleSearchSubmit()
+              }
+            }}
+          />
+
+          <Search className="absolute right-6 top-2 w-5 h-5" />
+
+          {(searchQuery.trim() || isSearching) && (
+            <div
+              className="absolute top-full left-0 w-[calc(100vw-6rem)] mt-2 z-50
+              border border-white/10 rounded-2xl shadow-xl max-h-80 overflow-y-auto
+            bg-[#e50914]/1 backdrop-blur-sm py-3 px-2
+            "
+            >
+              {isSearching ? (
+                <p className="px-4 py-3 text-sm text-gray-300">Searching...</p>
+              ) : searchResults.length > 0 ? (
+                searchResults.map((movie) => {
+                  const releaseYear =
+                    movie.release_date?.slice(0, 4) ?? movie.first_air_date?.slice(0, 4) ?? "—"
+                  return (
+                    <button
+                      key={movie.id}
+                      type="button"
+                      onClick={() => handleSearchSelect(movie)}
+                      className="w-full px-4 py-3 text-left hover:bg-white/10 flex items-center justify-between gap-3 rounded-2xl cursor-pointer"
+                    >
+                      <span className="text-sm font-medium">{movie.title || movie.name}</span>
+                      <span className="text-xs text-gray-400">{releaseYear}</span>
+                    </button>
+                  )
+                })
+              ) : (
+                <p className="px-4 py-3 text-sm text-gray-400">No matches found</p>
+              )}
+            </div>
+          )}
         </div>
+>>>>>>> theirs
         <button
           onClick={() => {
             user ? navigate("/ai-picks") : navigate("/signin")
           }}
-          className="bg-[#e50914] px-5 py-2 text-white cursor-pointer rounded-2xl min-w-[10px] sm:min-w-36 md:min-w-40"
+          className="bg-[#e50914] px-5 py-2 text-white cursor-pointer rounded-2xl sm:min-w-36 md:min-w-40"
         >
           AI Picks
         </button>
