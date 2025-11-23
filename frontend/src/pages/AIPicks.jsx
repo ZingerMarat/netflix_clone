@@ -162,7 +162,9 @@ const AIPicks = () => {
 
                 <div className="flex justify-between mt-6">
                   <button
-                    className="py-2 px-4 rounded-lg border-2 border-[#333] bg-[#232323] text-white font-semibold hover:bg-[#232323]/50 transition duration-300"
+                    className={`py-2 px-4 rounded-lg border-2 border-[#333] bg-[#232323] text-white font-semibold hover:bg-[#232323]/50 transition duration-300 ${
+                      currentStep == 0 ? "opacity-50 cursor-not-allowed" : ""
+                    }`}
                     onClick={handlePrevStep}
                     disabled={currentStep == 0}
                   >
