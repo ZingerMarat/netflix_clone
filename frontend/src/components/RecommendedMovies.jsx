@@ -1,4 +1,3 @@
-import axios from "axios"
 import React, { useEffect } from "react"
 import { useState } from "react"
 
@@ -51,8 +50,6 @@ const RecommendedMovies = ({ movieTitles }) => {
   if (loading) {
     return <p>Loading recommended movies...</p>
   }
-
-  console.log(movies)
 
   return (
     <div className="text-white md:px-4 m-5">

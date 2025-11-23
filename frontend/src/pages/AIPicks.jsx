@@ -1,4 +1,3 @@
-import React from "react"
 import { useState } from "react"
 import { toast } from "react-hot-toast"
 import { generateAIPicks } from "../../lib/AIModel.js"
@@ -72,38 +71,26 @@ const AIPicks = () => {
     setLoading(true)
 
     const userPrompt = `
-      Provide me with 5 movie recommendations based on the following preferences:
-      - Genre: ${answers["Genre Selection"]}
-      - Mood: ${answers["Mood Selection"]}
-      - Era: ${answers["Era Selection"]}
-      - Country: ${answers["Country Preference"]}
-      - Length: ${answers["Length Preference"]}
-      
-      Recommend 10 ${answers["Mood Selection"]} ${answers["Genre Selection"]} movies from ${answers["Era Selection"]} era, preferably from ${answers["Country Preference"]}, with a length of ${answers["Length Preference"]}.
-      Return the list as plain JSON array of movie titles only.
+                        You are a movie recommendation engine.
 
-      example:
-      [
-        "Movie Title 1",
-        "Movie Title 2",
-        ...
-      ]
-    `
+                        Based on these user preferences, recommend several movies that match as well as possible.
+
+                        Preferences:
+                        - Genre: ${answers["Genre Selection"]}
+                        - Mood: ${answers["Mood Selection"]}
+                        - Era: ${answers["Era Selection"]}
+                        - Country: ${answers["Country Preference"]}
+                        - Length: ${answers["Length Preference"]}
+
+                        Only consider real, existing movies.
+                        Each item in the list should be a single movie title (no year, no explanation).
+                        `
 
     const results = await generateAIPicks(userPrompt)
     setLoading(false)
 
-    if (results) {
-      const cleanedResults = results.replace(/```json\n/i, "").replace(/\n```/i, "")
-
-      try {
-        const parsedRecommendations = JSON.parse(cleanedResults)
-        setStoredRecommendations(parsedRecommendations)
-        console.log("AI Recommendations:", parsedRecommendations)
-      } catch (error) {
-        console.error("Parsing error:", error)
-        return
-      }
+    if (Array.isArray(results) && results.length > 0) {
+      setStoredRecommendations(results)
     } else {
       toast.error("Failed to generate recommendations. Please try again.")
     }
