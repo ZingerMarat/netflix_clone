@@ -1,22 +1,24 @@
 import React, { useEffect, useState } from "react"
 import { Search } from "lucide-react"
+import { useNavigate } from "react-router-dom"
 
-const SearchBar = ({ onSelect }) => {
+const SearchBar = () => {
   const [searchQuery, setSearchQuery] = useState("")
   const [searchResults, setSearchResults] = useState([])
   const [isSearching, setIsSearching] = useState(false)
+  const navigate = useNavigate()
 
-  const handleSelect = (item) => {
-    if (!item) return
-    onSelect?.(item)
+  const handleSearchSelect = (item) => {
+    if (!item?.id) return
+    const mediaType = item.media_type === "tv" ? "tv" : "movie"
+    navigate(`/media/${mediaType}/${item.id}`)
     setSearchQuery("")
     setSearchResults([])
-    setIsSearching(false)
   }
 
-  const handleSubmit = () => {
+  const handleSearchSubmit = () => {
     if (searchResults.length > 0) {
-      handleSelect(searchResults[0])
+      handleSearchSelect(searchResults[0])
     }
   }
 
@@ -28,10 +30,8 @@ const SearchBar = ({ onSelect }) => {
       return
     }
 
-    let isActive = true
     const controller = new AbortController()
     setIsSearching(true)
-
     const timeoutId = setTimeout(async () => {
       try {
         const response = await fetch(
@@ -48,7 +48,6 @@ const SearchBar = ({ onSelect }) => {
           }
         )
         const data = await response.json()
-        if (!isActive) return
         const filtered = (data.results || []).filter((movie) => movie?.title)
         setSearchResults(filtered.slice(0, 6))
       } catch (error) {
@@ -56,40 +55,41 @@ const SearchBar = ({ onSelect }) => {
           console.error("Search failed", error)
         }
       } finally {
-        if (isActive) {
-          setIsSearching(false)
-        }
+        setIsSearching(false)
       }
     }, 400)
 
     return () => {
-      isActive = false
       clearTimeout(timeoutId)
       controller.abort()
     }
   }, [searchQuery])
 
   return (
-    <div className="relative w-full sm:w-auto">
-      <div className="flex items-center gap-2">
-        <input
-          type="text"
-          className="bg-[#333333] px-4 py-2 rounded-full min-w-[20px] sm:min-w-36 md:min-w-40 outline-none flex-1"
-          placeholder="Search..."
-          value={searchQuery}
-          onChange={(event) => setSearchQuery(event.target.value)}
-          onKeyDown={(event) => {
-            if (event.key === "Enter") {
-              event.preventDefault()
-              handleSubmit()
-            }
-          }}
-        />
-        <Search className="w-5 h-5" />
-      </div>
+    <div className="relative inline-flex w-full sm:w-auto">
+      <input
+        type="text"
+        className="bg-[#333333] px-4 py-2 rounded-full min-w-[20px] sm:min-w-36 md:min-w-40 pr-10 outline-none"
+        placeholder="Search..."
+        value={searchQuery}
+        onChange={(event) => setSearchQuery(event.target.value)}
+        onKeyDown={(event) => {
+          if (event.key === "Enter") {
+            event.preventDefault()
+            handleSearchSubmit()
+          }
+        }}
+      />
+
+      <Search className="absolute right-6 top-2 w-5 h-5" />
 
       {(searchQuery.trim() || isSearching) && (
-        <div className="absolute top-full left-0 w-[calc(100vw-5rem)] mt-2 z-50 border border-white/10 rounded-2xl shadow-xl max-h-80 overflow-y-auto bg-[#e50914]/1 backdrop-blur-sm py-3 px-2">
+        <div
+          className="absolute top-full left-0 w-[calc(100vw)/2] mt-2 z-50
+                  border border-white/10 rounded-2xl shadow-xl max-h-80 overflow-y-auto
+                bg-[#e50914]/1 backdrop-blur-sm py-3 px-2
+                "
+        >
           {isSearching ? (
             <p className="px-4 py-3 text-sm text-gray-300">Searching...</p>
           ) : searchResults.length > 0 ? (
@@ -100,10 +100,14 @@ const SearchBar = ({ onSelect }) => {
                 <button
                   key={movie.id}
                   type="button"
-                  onClick={() => handleSelect(movie)}
+                  onClick={() => handleSearchSelect(movie)}
                   className="w-full px-4 py-3 text-left hover:bg-white/10 flex items-center justify-between gap-3 rounded-2xl cursor-pointer"
                 >
-                  <span className="text-sm font-medium">{movie.title || movie.name}</span>
+                  <span className="text-sm font-medium">
+                    {(movie.title || movie.name).length > 35
+                      ? (movie.title || movie.name).slice(0, 35) + "..."
+                      : movie.title || movie.name}
+                  </span>
                   <span className="text-xs text-gray-400">{releaseYear}</span>
                 </button>
               )
