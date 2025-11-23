@@ -2,6 +2,7 @@ import React from "react"
 import { useState } from "react"
 import { toast } from "react-hot-toast"
 import { generateAIPicks } from "../../lib/AIModel.js"
+import RecommendedMovies from "../components/RecommendedMovies.jsx"
 
 const steps = [
   {
@@ -108,7 +109,7 @@ const AIPicks = () => {
 
   return (
     <div
-      className="min-h-[calc(100vh-64px)] flex items-center justify-center px-5"
+      className="min-h-[calc(100vh-64px)] flex flex-col items-center justify-center px-5"
       style={{
         backgroundImage:
           "linear-gradient(rgb(0,0,0,0.5), rgba(0,0,0,0.5)), url(/background_banner.jpg)",
@@ -182,6 +183,8 @@ const AIPicks = () => {
           </div>
         </div>
       </div>
+
+      <RecommendedMovies movieTitles={recommendation} />
     </div>
   )
 }
