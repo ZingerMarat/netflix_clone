@@ -62,21 +62,23 @@ const MediaPage = () => {
       <MoviePoster movie={movie} ytKey={ytKey} />
       {movie?.overview && (
         <div className="block lg:hidden text-white p-8">
-          <h2 className="pt-10 pb-5 text-2xl font-medium">Overview</h2>
-          {movie?.genres && movie.genres.length > 0 && (
-            <div className="flex-wrap mt-3">
-              {movie.genres.map((genre) => (
-                <span
-                  key={genre.id}
-                  className="px-3 py-1 mr-2 mb-2 rounded-full bg-white/10 backdrop-blur-xs border border-white/20 text-xs sm:text-sm"
-                >
-                  {genre.name}
-                </span>
-              ))}
-            </div>
-          )}
+          <h2 className="pb-5 text-2xl font-medium">Overview</h2>
+          <div className="bg-[#232323] rounded-lg shadow-lg p-6 flex flex-col md:flex-row gap-8">
+            {movie?.genres && movie.genres.length > 0 && (
+              <div className="flex-wrap mt-3">
+                {movie.genres.map((genre) => (
+                  <span
+                    key={genre.id}
+                    className="px-3 py-1 mr-2 mb-2 rounded-full bg-white/10 backdrop-blur-xs border border-white/20 text-xs sm:text-sm"
+                  >
+                    {genre.name}
+                  </span>
+                ))}
+              </div>
+            )}
 
-          <p className=" mt-3 max-w-[70%] text-sm md:text-base">{movie.overview}</p>
+            <p className=" mt-3 max-w-[70%] text-sm md:text-base">{movie.overview}</p>
+          </div>
         </div>
       )}
       {movie && <RecomendCardList type={type} movie_id={movie.id} />}

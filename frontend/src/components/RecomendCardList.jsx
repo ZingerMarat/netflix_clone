@@ -42,8 +42,8 @@ const RecomendCardList = ({ type, title, movie_id }) => {
   }
 
   return (
-    <div className="text-white md:px-4 m-5">
-      <h2 className="pt-10 pb-5 text-2xl font-medium">You might also like</h2>
+    <div className="text-white p-8">
+      <h2 className="pb-5 text-2xl font-medium">You might also like</h2>
 
       <Swiper
         className="mySwiper items-center justify-center"
