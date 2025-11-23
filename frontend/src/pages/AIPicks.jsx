@@ -172,7 +172,13 @@ const AIPicks = () => {
                     }
                     disabled={!answers[steps[currentStep].name] || loading}
                   >
-                    {currentStep === steps.length - 1 ? "Generate" : "Next"}
+                    {loading ? (
+                      <div className="w-5 h-5 border-2 border-white/40 border-t-white rounded-full animate-spin"></div>
+                    ) : currentStep === steps.length - 1 ? (
+                      "Generate"
+                    ) : (
+                      "Next"
+                    )}
                   </button>
                 </div>
               </div>
