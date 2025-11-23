@@ -122,6 +122,3 @@ Responses include friendly status messages surfaced via toast notifications in t
 - Manual flows: signup/login/logout, browsing categories, search, AI recommendations.
 - Automated tests are not configured yet; consider adding component tests (Vitest/React Testing Library) and integration tests for the auth API.
 
----
-
-Paste this content into `frontend/README.md` (or a root-level README) when you regain write access.
