@@ -37,7 +37,9 @@ const MovieInfo = ({ type, movie }) => {
 
             <li>
               <span className="font-semibold text-white">Release Date:</span>
-              <span className="ml-2">{movie.release_date ? movie.release_date : movie.first_air_date}</span>
+              <span className="ml-2">
+                {movie.release_date ? movie.release_date : movie.first_air_date}
+              </span>
             </li>
 
             <li>
@@ -47,7 +49,11 @@ const MovieInfo = ({ type, movie }) => {
 
             <li>
               <span className="font-semibold text-white">Spoken Languages:</span>
-              <span className="ml-2">{movie.spoken_languages && movie.spoken_languages.length > 0 ? movie.spoken_languages.map((l) => l.english_name).join(", ") : "N/A"}</span>
+              <span className="ml-2">
+                {movie.spoken_languages && movie.spoken_languages.length > 0
+                  ? movie.spoken_languages.map((l) => l.english_name).join(", ")
+                  : "N/A"}
+              </span>
             </li>
           </ul>
         </div>
@@ -61,7 +67,10 @@ const MovieInfo = ({ type, movie }) => {
                 (c) =>
                   c.profile_path && (
                     <div key={c.id} className="flex flex-col items-center">
-                      <img src={`https://image.tmdb.org/t/p/original${c.profile_path}`} className="rounded-full object-cover w-20 h-20" />
+                      <img
+                        src={`https://image.tmdb.org/t/p/original${c.profile_path}`}
+                        className="rounded-full object-cover w-20 h-20"
+                      />
                       <div className="text-center mt-2 leading-tight">
                         {c.name.split(" ").map((part, i) => (
                           <div key={i}>{part}</div>

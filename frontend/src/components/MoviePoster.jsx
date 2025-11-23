@@ -1,7 +1,9 @@
 import React from "react"
 import { Bookmark, Play } from "lucide-react"
+import { useNavigate } from "react-router-dom"
 
 const MoviePoster = ({ movie, ytKey }) => {
+  const navigate = useNavigate()
   return (
     <div className="text-white relative">
       {/* Background image or trailer */}
@@ -62,7 +64,7 @@ const MoviePoster = ({ movie, ytKey }) => {
 
             {/* Genres*/}
             {movie?.genres && movie.genres.length > 0 && (
-              <div className="hidden md:flex flex-wrap mt-3">
+              <div className="hidden lg:flex flex-wrap mt-3">
                 {movie.genres.map((genre) => (
                   <span
                     key={genre.id}
@@ -76,7 +78,7 @@ const MoviePoster = ({ movie, ytKey }) => {
 
             {/* Overview */}
             {movie?.overview && (
-              <p className="hidden lg:block mt-3 max-w-[60%] text-sm md:text-base">
+              <p className="hidden lg:block mt-3 max-w-[70%] text-sm md:text-base">
                 {movie.overview}
               </p>
             )}
@@ -87,7 +89,12 @@ const MoviePoster = ({ movie, ytKey }) => {
                 <Bookmark className="mr-2 w-4 h-4 md:w-5 md:h-5" />
                 Save for Later
               </button>
-              <button className="flex justify-center items-center bg-[#e50914]/90 backdrop-blur-sm border border-[#e50914]/20 text-white py-2.5 px-4 rounded-full cursor-pointer text-xs sm:text-sm md:text-base hover:bg-[#e50914] transition flex-none">
+              <button
+                className="flex justify-center items-center bg-[#e50914]/90 backdrop-blur-sm border border-[#e50914]/20 text-white py-2.5 px-4 rounded-full cursor-pointer text-xs sm:text-sm md:text-base hover:bg-[#e50914] transition flex-none"
+                onClick={() => {
+                  navigate(`/media/movie/${movie.id}`)
+                }}
+              >
                 <Play className="mr-2 w-4 h-4 md:w-5 md:h-5" />
                 Watch Now
               </button>

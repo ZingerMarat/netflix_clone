@@ -85,10 +85,15 @@ const SearchBar = () => {
 
       {(searchQuery.trim() || isSearching) && (
         <div
-          className="absolute top-full left-0 w-[calc(100vw)/2] mt-2 z-50
-                  border border-white/10 rounded-2xl shadow-xl max-h-80 overflow-y-auto
-                bg-[#e50914]/1 backdrop-blur-sm py-3 px-2
-                "
+          className="
+                      absolute top-full
+                      left-1/2 -translate-x-1/2     /* центр на мобильных */
+                      sm:left-0 sm:translate-x-0    /* вернуть к левому краю на больших */
+                      w-70 sm:w-100
+                      m-2 z-50
+                      border border-white/10 rounded-2xl shadow-xl max-h-80 overflow-y-auto
+                      bg-[#e50914]/1 backdrop-blur-sm py-3 px-2
+                    "
         >
           {isSearching ? (
             <p className="px-4 py-3 text-sm text-gray-300">Searching...</p>
@@ -104,8 +109,8 @@ const SearchBar = () => {
                   className="w-full px-4 py-3 text-left hover:bg-white/10 flex items-center justify-between gap-3 rounded-2xl cursor-pointer"
                 >
                   <span className="text-sm font-medium">
-                    {(movie.title || movie.name).length > 35
-                      ? (movie.title || movie.name).slice(0, 35) + "..."
+                    {(movie.title || movie.name).length > 25
+                      ? (movie.title || movie.name).slice(0, 25) + "..."
                       : movie.title || movie.name}
                   </span>
                   <span className="text-xs text-gray-400">{releaseYear}</span>

@@ -29,7 +29,10 @@ const HomePage = () => {
         //try to get trailer
         const vRes = await fetch(`${TMDB}/movie/${m.id}/videos?language=en-US`, { ...options })
         const { results = [] } = await vRes.json()
-        const best = results.find((v) => v.site === "YouTube" && v.type === "Trailer" && v.official) || results.find((v) => v.site === "YouTube" && v.type === "Trailer") || results.find((v) => v.site === "YouTube")
+        const best =
+          results.find((v) => v.site === "YouTube" && v.type === "Trailer" && v.official) ||
+          results.find((v) => v.site === "YouTube" && v.type === "Trailer") ||
+          results.find((v) => v.site === "YouTube")
         setYtKey(best?.key ?? null)
       } catch (err) {
         console.error(err)

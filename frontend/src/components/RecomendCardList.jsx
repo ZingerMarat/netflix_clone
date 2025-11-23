@@ -20,7 +20,10 @@ const RecomendCardList = ({ type, title, movie_id }) => {
   useEffect(() => {
     async function loadData(pageNum) {
       try {
-        const res = await fetch(`${TMDB}/${type}/${movie_id}/recommendations?language=en-US&page=${pageNum}`, options)
+        const res = await fetch(
+          `${TMDB}/${type}/${movie_id}/recommendations?language=en-US&page=${pageNum}`,
+          options
+        )
         const data = await res.json()
         if (!data?.results?.length) return
 
@@ -34,9 +37,13 @@ const RecomendCardList = ({ type, title, movie_id }) => {
     loadData(page)
   }, [page])
 
+  if (movies.length === 0) {
+    return null
+  }
+
   return (
     <div className="text-white md:px-4 m-5">
-      <h2 className="pt-10 pb-5 text-2xl font-medium">{title}</h2>
+      <h2 className="pt-10 pb-5 text-2xl font-medium">You might also like</h2>
 
       <Swiper
         className="mySwiper items-center justify-center"
@@ -49,17 +56,19 @@ const RecomendCardList = ({ type, title, movie_id }) => {
           }
         }}
       >
-        {movies &&
-          movies.map(
-            (movie, index) =>
-              movie.backdrop_path && (
-                <SwiperSlide key={movie.id || index} className="max-w-[160px] md:max-w-[200px] max-h-[250px] md:max-h-[300px] rounded-2xl overflow-hidden bg-white/5 backdrop-blur-xs border-white/20 border-0">
-                  <Link to={`/media/${type}/${movie.id}`}>
-                    <Card movie={movie} />
-                  </Link>
-                </SwiperSlide>
-              )
-          )}
+        {movies.map(
+          (movie, index) =>
+            movie.backdrop_path && (
+              <SwiperSlide
+                key={movie.id || index}
+                className="max-w-[160px] md:max-w-[200px] max-h-[250px] md:max-h-[300px] rounded-2xl overflow-hidden bg-white/5 backdrop-blur-xs border-white/20 border-0"
+              >
+                <Link to={`/media/${type}/${movie.id}`}>
+                  <Card movie={movie} />
+                </Link>
+              </SwiperSlide>
+            )
+        )}
       </Swiper>
     </div>
   )
