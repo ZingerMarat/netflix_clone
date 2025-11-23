@@ -48,7 +48,7 @@ const SignIn = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
 
-          {error && <p className="text-red-500">{error}</p>}
+          {error && error !== "Unauthorized" && <p className="text-red-500">{error}</p>}
 
           <button
             type="submit"
